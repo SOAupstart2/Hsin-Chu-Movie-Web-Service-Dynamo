@@ -6,6 +6,6 @@ Handles:
   - Returns message indicating server is alive and links to Github repo.
 - GET /api/v1/list-movies/
   - Returns JSON array with each element representing a cinema, with information about current films on display and show times.
-- /api/v1/list-movies/:cinema_id.json
+- GET /api/v1/list-movies/:cinema_id.json
   - Takes cinema_id (Test with '0005' & '0012' for cinemas in Hsinchu)
   - Returns JSON object representing specified cinema, with information about current films on display and show times.
