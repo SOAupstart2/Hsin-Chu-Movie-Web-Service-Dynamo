@@ -1,35 +1,46 @@
 require_relative 'spec_helper'
-require 'json'
-require './spec/support/vcr_setup'
+# require 'json'
 
-TEST_SITES = %w(05 12)
-FAIL_SITES = %w(0 16)
-FIXTURES = './spec/fixtures/vieshow_'
+describe 'Getting the root of the service' do
+  it 'Should return ok' do
+    get '/'
+    last_response.must_be :ok?
+    last_response.body.must_match(/api v/i, /welcome/i)
+  end
+end
 
 describe 'Get film information' do
   TEST_SITES.each do |site|
-    it "must return same list of movies for #{site}" do
-      VCR.use_cassette("vieshow_name_#{site}") do
-        cinema = HsinChuMovie::Vieshow.new(site.to_i)
-        site_names = yml_load("#{FIXTURES}name_#{site}.yml")
-        site_names.must_equal cinema.movie_names
-      end
-    end
-
-    it "must return same table for #{site}" do
-      VCR.use_cassette("vieshow_table_#{site}") do
-        cinema = HsinChuMovie::Vieshow.new(site.to_i)
-        site_table = yml_load("#{FIXTURES}table_#{site}.yml")
-        site_table.must_equal cinema.movie_table
+    TEST_INFO.each do |t|
+      it "must return same #{t} of movies for #{site}" do
+        VCR.use_cassette("vieshow_#{t}_#{site}") do
+          site_info = yml_load("#{FIXTURES}#{t}_#{site}.yml")
+          if t == TEST_INFO[0]
+            get "/api/v1/cinema/#{site}/movies"
+            last_response.body.must_equal site_info.to_json
+          else
+            get "/api/v1/cinema/#{site}.json"
+            last_response.body.must_equal site_info.to_s
+          end
+        end
       end
     end
   end
 end
 
 describe 'Outside of 1 and 14 must fail' do
-  FAIL_SITES.each do |site|
-    it "must fail for #{site}" do
-      # HsinChuMovie::Vieshow.new(site.to_i).must_fail
-    end
-  end
+  # Hen qi gwai
+  # FAIL_SITES.each do |site|
+  #   TEST_INFO.each do |t|
+  #     it "must fail #{t} for #{site}" do
+  #       route = if t == TEST_INFO[0]
+  #         "/api/v1/cinema/#{site}/movies"
+  #       else
+  #         "/api/v1/cinema/#{site}.json"
+  #       end
+  #       get route
+  #       last_response.must_be :not_found?
+  #     end
+  #   end
+  # end
 end
