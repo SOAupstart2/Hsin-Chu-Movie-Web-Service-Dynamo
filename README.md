@@ -1,5 +1,4 @@
 # Hsin-Chu-Movie-Web-Service
-[![Build Status](https://travis-ci.org/SOAupstart2/Hsin-Chu-Movie-Web-Service.svg)](https://travis-ci.org/SOAupstart2/Hsin-Chu-Movie-Web-Service)
 A simple version of a web service that scrapes cinema show times in Hsinchu using the [kandianying](https://github.com/SOAupstart2/Hsinchu_Movie) gem.
 
 Handles:
