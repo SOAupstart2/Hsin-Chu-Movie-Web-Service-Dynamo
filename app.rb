@@ -4,6 +4,7 @@ require_relative 'app_helper'
 # Web Service for Hsinchu cinema
 class HsinchuMovieWebService < Sinatra::Base
   helpers AppHelpers
+  enable :logging
 
   get '/' do
     'Welcome to our API v1. Here\'s '\
