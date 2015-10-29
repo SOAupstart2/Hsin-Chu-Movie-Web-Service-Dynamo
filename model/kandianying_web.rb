@@ -1,6 +1,7 @@
 require 'kandianying'
 require 'json'
 
+# Cinema information Class
 class CinemaInfo
   attr_reader :movie_table, :movie_names
 

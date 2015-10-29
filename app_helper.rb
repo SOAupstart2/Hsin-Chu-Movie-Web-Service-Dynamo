@@ -7,7 +7,7 @@ module AppHelpers
   end
 
   def cinema_names(theater_id)
-    cinema(theater_id).movie_names    
+    cinema(theater_id).movie_names
   rescue
     halt 404
   end
