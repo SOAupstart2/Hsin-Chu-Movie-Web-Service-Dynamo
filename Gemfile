@@ -1,7 +1,13 @@
 source 'https://rubygems.org'
-ruby '2.2.1'
 
 gem 'sinatra'
-gem 'thin'
-gem 'rake'
+gem 'sinatra-contrib'
 gem 'kandianying'
+gem 'thin'
+
+group :test do
+  gem 'minitest'
+  gem 'rack'
+  gem 'rack-test'
+  gem 'rake'
+end
