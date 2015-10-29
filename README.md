@@ -3,9 +3,10 @@ A simple version of a web service that scrapes cinema show times in Hsinchu usin
 
 Handles:
 - GET /
-  - Returns message indicating server is alive and links to Github repo.
-- GET /api/v1/list-movies/
-  - Returns JSON array with each element representing a cinema, with information about current films on display and show times.
-- GET /api/v1/list-movies/:cinema_id.json
-  - Takes cinema_id (Test with '0005' & '0012' for cinemas in Hsinchu)
+  - Returns message indicating server is alive and with links to Github repo.
+- GET /api/v1/cinema/:theater_id/movies
+  - Takes theater_id (Test with '5' & '12' for cinemas in Hsinchu)
+  - Returns a list of current films on display at specified cinema.
+- GET /api/v1/cinema/:theater_id.json
+  - Takes theater_id (Test with '5' & '12' for cinemas in Hsinchu)
   - Returns JSON object representing specified cinema, with information about current films on display and show times.
