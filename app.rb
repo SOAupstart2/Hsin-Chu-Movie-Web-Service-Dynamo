@@ -1,7 +1,7 @@
 require 'sinatra/base'
 require_relative 'app_helper'
 
-# Web Service for Hsinchu cinema
+# Web Service for Hsinchu cinemas
 class HsinchuMovieWebService < Sinatra::Base
   helpers AppHelpers
   enable :logging
