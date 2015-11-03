@@ -7,6 +7,18 @@ gem 'sinatra-contrib'
 gem 'kandianying'
 gem 'thin'
 
+gem 'activerecord'
+gem 'sinatra-activerecord'
+gem 'tux'
+
+group :development, :test do
+  gem 'sqlite3'
+end
+
+group :production do
+  gem 'pg'
+end
+
 group :test do
   gem 'minitest'
   gem 'minitest-rg'

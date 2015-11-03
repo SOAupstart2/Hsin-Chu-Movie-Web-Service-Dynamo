@@ -1,12 +1,12 @@
-# ENV['RACK_ENV'] = 'test'
+ENV['RACK_ENV'] = 'test'
 
+Dir.glob('./{models,helpers,controllers}/*.rb').each { |file| require file }
 require 'minitest/autorun'
 require 'minitest/rg'
 require 'rack/test'
 require 'vcr'
 require 'webmock/minitest'
 require 'yaml'
-require_relative '../app'
 
 include Rack::Test::Methods
 

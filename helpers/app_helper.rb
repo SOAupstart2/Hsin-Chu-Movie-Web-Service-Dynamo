@@ -1,5 +1,3 @@
-require_relative './model/kandianying_web'
-
 # Helpers for main sinatra web application
 module AppHelpers
   def cinema(theater_id)

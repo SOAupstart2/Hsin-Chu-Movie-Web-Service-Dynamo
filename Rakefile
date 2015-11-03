@@ -1,8 +1,10 @@
+Dir.glob('./{models,helpers,controllers}/*.rb').each { |file| require file }
+require 'sinatra/activerecord/rake'
 require 'rake/testtask'
 
 task default: :spec
 
 desc 'Run all tests'
-Rake::TestTask.new(name = :spec) do |t|
+Rake::TestTask.new(name = :spesc) do |t|
   t.pattern = 'spec/*_spec.rb'
 end
