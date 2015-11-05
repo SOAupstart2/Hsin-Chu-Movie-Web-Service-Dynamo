@@ -9,6 +9,7 @@ require 'webmock/minitest'
 require 'yaml'
 
 include Rack::Test::Methods
+system 'RACK_ENV=test rake db:migrate'
 
 TEST_SITES = %w(05 12)
 FAIL_SITES = 10.times.map { Random.new.rand(100) } - (1..14).to_a

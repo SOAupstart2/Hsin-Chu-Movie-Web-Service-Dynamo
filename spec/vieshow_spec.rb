@@ -69,20 +69,3 @@ describe 'Redirect check' do
     last_response.must_be :bad_request?
   end
 end
-
-# describe 'Outside of 1 and 14 must fail' do
-#   Hen qi gwai
-#   FAIL_SITES.each do |site|
-#     TEST_INFO.each do |t|
-#       it "must fail #{t} for #{site}" do
-#         route = if t == TEST_INFO[0]
-#           "/api/v1/cinema/#{site}/movies"
-#         else
-#           "/api/v1/cinema/#{site}.json"
-#         end
-#         get route
-#         last_response.must_be :not_found?
-#       end
-#     end
-#   end
-# end
