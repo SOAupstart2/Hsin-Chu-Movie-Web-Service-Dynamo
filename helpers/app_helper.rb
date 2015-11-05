@@ -8,14 +8,14 @@ module AppHelpers
     cinema(theater_id).movie_names
   rescue => e
     logger.error "Fail: #{e}"
-    halt 404
+    halt 400
   end
 
   def cinema_table(theater_id)
     cinema(theater_id).movie_table
   rescue => e
     logger.error "Fail: #{e}"
-    halt 404
+    halt 400
   end
 
   # def check_movie_info(movie_names, times)
