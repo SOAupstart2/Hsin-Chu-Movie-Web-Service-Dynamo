@@ -1,3 +1,3 @@
 Dir.glob('./{models,helpers,controllers}/*.rb').each { |file| require file }
 
-run HsinchuMovieWebService
+run ApplicationController

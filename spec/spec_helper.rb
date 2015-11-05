@@ -16,7 +16,7 @@ TEST_INFO = %w(name table)
 FIXTURES = './spec/fixtures/vieshow_'
 
 def app
-  HsinchuMovieWebService
+  ApplicationController
 end
 
 VCR.configure do |config|
