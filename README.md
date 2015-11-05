@@ -10,3 +10,7 @@ Handles:
 - GET /api/v1/cinema/:theater_id.json
   - Takes theater_id (Test with '5' & '12' for cinemas in Hsinchu)
   - Returns JSON object representing specified cinema, with information about current films on display and show times.
+- POST /api/v1/cinema/users
+  - Store the location and language which user input.
+  - Redirect to the page which shows the data input.
+  - Example: curl -v -d '{"location":"ttt","language":"aaa"}' http://localhost:9292/api/v1/users
