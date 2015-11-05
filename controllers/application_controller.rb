@@ -21,13 +21,14 @@ class ApplicationController < Sinatra::Base
     cinema_table(params[:theater_id])
   end
 
-  get '/api/v1/users/:id' do
+  get '/api/v1/users/:id/?' do
     content_type :json
     begin
       user = User.find(params[:id])
       location = user.location
       language = user.language
-      logger.info({ id: user.id, location: location, language: language }.to_json)
+      logger.info({ id: user.id, location: location,
+                    language: language }.to_json)
     rescue => e
       logger.error "Fail: #{e}"
       halt 404
@@ -37,7 +38,7 @@ class ApplicationController < Sinatra::Base
       language: language }.to_json
   end
 
-  post '/api/v1/users' do
+  post '/api/v1/users/?' do
     content_type :json
     begin
       req = JSON.parse(request.body.read)

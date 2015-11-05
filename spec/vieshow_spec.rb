@@ -43,26 +43,26 @@ describe 'Get film information' do
 end
 
 describe 'Redirect check' do
-  header = {'CONTENT-TYPE' => 'application/json'}
+  header = { 'CONTENT-TYPE' => 'application/json' }
 
   # good
   it 'should be redirect' do
-    body = {'location'=>'taiwan', 'language'=>'ch'}
+    body = { 'location' => 'taiwan', 'language' => 'ch' }
     post 'api/v1/users', body.to_json, header
 
     last_response.must_be :redirect?
     last_request.wont_equal ''
 
     next_location = last_response.location
-    next_location.must_match /api\/v1\/users\/\d+/
+    next_location.must_match %r{/api\/v1\/users\/\d+}
 
     follow_redirect!
-    last_request.url.must_match /api\/v1\/users\/\d+/
+    last_request.url.must_match %r{/api\/v1\/users\/\d+}
   end
 
   # bad
   it 'should return 400 for bad JSON formatting' do
-    header = {'CONTENT-TYPE' => 'application/json'}
+    header = { 'CONTENT-TYPE' => 'application/json' }
     body = 'aaaaaaaaaaaaaaaaaaaaaaaaa'
 
     post '/api/v1/users', body, header
