@@ -11,9 +11,13 @@ gem 'activerecord'
 gem 'sinatra-activerecord'
 gem 'tux'
 
+gem 'hirb'
+gem 'httparty'
+gem 'sinatra-flash'
+gem 'slim'
+
 group :development, :test do
   gem 'sqlite3'
-  gem 'hirb'
 end
 
 group :production do
