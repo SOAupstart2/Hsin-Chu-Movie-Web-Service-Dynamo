@@ -13,6 +13,7 @@ gem 'tux'
 
 group :development, :test do
   gem 'sqlite3'
+  gem 'hirb'
 end
 
 group :production do

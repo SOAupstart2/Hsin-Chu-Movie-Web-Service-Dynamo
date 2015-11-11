@@ -1,27 +1,28 @@
 require 'sinatra/base'
 
+
 # Web Service for Hsinchu cinemas
 class ApplicationController < Sinatra::Base
   helpers AppHelpers
   enable :logging
 
-  get '/' do
+  api_get_root = lambda do
     'Welcome to our API v1. Here\'s '\
     ' <a href="https://github.com/SOAupstart2/Hsin-Chu-Movie-Web-Service">'\
     'our github homepage</a>.'
   end
 
-  get '/api/v1/cinema/:theater_id/movies' do
+  api_get_movie_name = lambda do
     content_type :json
     cinema_names(params[:theater_id])
   end
 
-  get '/api/v1/cinema/:theater_id.json' do
+  api_get_movie_info = lambda do
     content_type :json
     cinema_table(params[:theater_id])
   end
 
-  get '/api/v1/users/:id/?' do
+  api_get_user_info = lambda do
     content_type :json
     begin
       user = User.find(params[:id])
@@ -38,7 +39,7 @@ class ApplicationController < Sinatra::Base
       language: language }.to_json
   end
 
-  post '/api/v1/users/?' do
+  api_post_user_info = lambda do
     content_type :json
     begin
       req = JSON.parse(request.body.read)
@@ -58,4 +59,11 @@ class ApplicationController < Sinatra::Base
       halt 500, 'Error saving user request to the database'
     end
   end
+
+  get '/api/v1/?', &api_get_root
+  get '/api/v1/cinema/:theater_id/movies/?', &api_get_movie_name
+  get '/api/v1/cinema/:theater_id.json', &api_get_movie_info
+  get '/api/v1/users/:id/?', &api_get_user_info
+  post '/api/v1/users/?', &api_post_user_info
+
 end
