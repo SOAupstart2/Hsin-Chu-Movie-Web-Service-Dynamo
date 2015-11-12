@@ -55,13 +55,11 @@ class ApplicationController < Sinatra::Base
       user = User.find(params[:id])
       location = user.location
       language = user.language
-      theater_id = params[:theater_id]
       film_name = params[:name]
       date_time = params[:time]
       logger.info({ id: user.id,
                     location: location,
                     language: language,
-                    theater_id: theater_id,
                     name: film_name,
                     time: date_time
                     }.to_json)
@@ -73,8 +71,8 @@ class ApplicationController < Sinatra::Base
     user_info = { id: user.id,
                   location: location,
                   language: language }
-    search_name = (theater_id && film_name) ? film_times(theater_id, film_name) : {}
-    search_time = (theater_id && date_time) ? films_after_time(theater_id, date_time) : {}
+    search_name = film_name ? film_times(location, film_name) : {}
+    search_time = date_time ? films_after_time(location, date_time) : {}
 
     {user_info: user_info,
      search_name: search_name,
