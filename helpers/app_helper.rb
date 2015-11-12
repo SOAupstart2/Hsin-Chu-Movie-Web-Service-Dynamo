@@ -18,6 +18,19 @@ module AppHelpers
     halt 400
   end
 
+  def film_times(theater_id, film_name)
+    cinema(theater_id).film_times(film_name)
+  rescue => e
+    logger.error "Fail: #{e}"
+    halt 400
+  end
+
+  def films_after_time(theater_id, date_time)
+    cinema(theater_id).films_after_time(date_time)
+  rescue => e
+    logger.error "Fail: #{e}"
+    halt 400
+  end
   # def check_movie_info(movie_names, times)
   #   @check_info = {}
   #   movie_names.map do |movie_name|

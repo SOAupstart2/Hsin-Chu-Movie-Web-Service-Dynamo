@@ -8,6 +8,7 @@ require 'slim'
 class ApplicationController < Sinatra::Base
   helpers AppHelpers
   enable :sessions
+  enable :logging
   register Sinatra::Flash
   use Rack::MethodOverride
 
@@ -54,15 +55,30 @@ class ApplicationController < Sinatra::Base
       user = User.find(params[:id])
       location = user.location
       language = user.language
-      logger.info({ id: user.id, location: location,
-                    language: language }.to_json)
+      theater_id = params[:theater_id]
+      film_name = params[:name]
+      date_time = params[:time]
+      logger.info({ id: user.id,
+                    location: location,
+                    language: language,
+                    theater_id: theater_id,
+                    name: film_name,
+                    time: date_time
+                    }.to_json)
     rescue => e
       logger.error "Fail: #{e}"
       halt 404
     end
 
-    { id: user.id, location: location,
-      language: language }.to_json
+    user_info = { id: user.id,
+                  location: location,
+                  language: language }
+    search_name = (theater_id && film_name) ? film_times(theater_id, film_name) : {}
+    search_time = (theater_id && date_time) ? films_after_time(theater_id, date_time) : {}
+
+    {user_info: user_info,
+     search_name: search_name,
+     search_time: search_time}.to_json
   end
 
   api_post_user_info = lambda do
@@ -93,7 +109,6 @@ class ApplicationController < Sinatra::Base
   get '/api/v1/users/:id/?', &api_get_user_info
   post '/api/v1/users/?', &api_post_user_info
   
-
   helpers do
     def current_page?(path = ' ')
       path_info = request.path_info
@@ -106,8 +121,11 @@ class ApplicationController < Sinatra::Base
   app_get_root = lambda do
     slim :home
   end
+
   # Web App Views Routes
   get '/', &app_get_root
+
+
 
 
 end
