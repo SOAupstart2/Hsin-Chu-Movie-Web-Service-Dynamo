@@ -1,2 +1,13 @@
+/ .container
+/   label I didn't do this page yet at 'app_get_movie' & 'movie.slim'
+
 .container
-  label I didn't do this page yet at 'app_get_movie' & 'movie.slim'
+form action='/users/#{@id}' method='get' id='check-form'
+  -if @result
+  table class='center'
+    tbody
+      th test1
+      th test2
+  .float-clear    
+    input type='text' name='name' placeholder='please enter film name' id='home-form-username'
+    input type='submit' value='submit' id='check-submit' class='submit'

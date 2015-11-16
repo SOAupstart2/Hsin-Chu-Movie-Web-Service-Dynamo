@@ -124,6 +124,14 @@ class ApplicationController < Sinatra::Base
   end
 
   app_get_movie = lambda do
+    @id = params[:id]
+    if params[:name] or params[:time]
+      @name = params[:name]
+      @time = params[:time]
+      request_url = "#{settings.api_server}/#{settings.api_ver}/users/#{@id}/?name=#{@name}"
+      @result = HTTParty.get(request_url)
+    end
+    # logger.info @result
     slim :movie
   end
 
