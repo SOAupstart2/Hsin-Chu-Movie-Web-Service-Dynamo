@@ -129,8 +129,8 @@ class ApplicationController < Sinatra::Base
 
   app_post_user = lambda do
     request_url = "#{settings.api_server}/#{settings.api_ver}/users"
-    language = params[:language].split("\r\n")
-    location = params[:location].split("\r\n")
+    language = params[:language]
+    location = params[:location]
     params_h = {
       language: language,
       location: location
