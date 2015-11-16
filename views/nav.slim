@@ -7,12 +7,12 @@
       - else
         li
           a href='/' id='home'  Home
-      / - if current_page?('cadet')
-      /   li class='current_page_item'
-      /     a href='/cadet' id='cadet'  Cadet
-      / - else
-      /   li
-      /     a href='/cadet' id='cadet'  Cadet
+      - if current_page?('user')
+        li class='current_page_item'
+          a href='/users' id='user'  User
+      - else
+        li
+          a href='/users' id='user'  User
       / - if current_page?('academy')
       /   li class='current_page_item'
       /     a href='/tutorials' id='tutorials'  Tutorials

@@ -1,0 +1,14 @@
+.container
+  form action='/users' method='post' id='check-form'
+    dl class='user-input'
+      dt
+        label for='check-usernames'  Language
+      dd
+        input type='text' cols="35" name="language"
+    dl class='user-input'
+      dt
+        label for='check-badges'  Location
+      dd
+        input type='text' cols="35" name="location"
+    .float-clear
+      input type='submit' value='submit' id='check-submit' class='submit'

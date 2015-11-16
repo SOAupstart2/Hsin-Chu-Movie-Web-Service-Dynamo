@@ -8,30 +8,29 @@ require 'slim'
 class ApplicationController < Sinatra::Base
   helpers AppHelpers
   enable :sessions
-  enable :logging
   register Sinatra::Flash
   use Rack::MethodOverride
 
   set :views, File.expand_path('../../views', __FILE__)
   set :public_folder, File.expand_path('../../public', __FILE__)
 
-  # configure do
-  #   Hirb.enable
-  #   set :session_secret, 'something'
-  #   set :api_ver, 'api/v1'
-  # end
+  configure do
+    Hirb.enable
+    set :session_secret, 'something'
+    set :api_ver, 'api/v1'
+  end
 
-  # configure :development, :test do
-  #   set :api_server, 'http://localhost:9292'
-  # end
+  configure :development, :test do
+    set :api_server, 'http://localhost:9292'
+  end
 
-  # configure :production do
-  #   set :api_server, 'http://kandianying.herokuapp.com'
-  # end
+  configure :production do
+    set :api_server, 'http://kandianying.herokuapp.com'
+  end
 
-  # configure :production, :development do
-  #   enable :logging
-  # end
+  configure :production, :development do
+    enable :logging
+  end
 
   api_get_root = lambda do
     'Welcome to our API v1. Here\'s '\
@@ -120,10 +119,47 @@ class ApplicationController < Sinatra::Base
     slim :home
   end
 
+  app_get_user = lambda do
+    slim :user
+  end
+
+  app_get_movie = lambda do
+    slim :movie
+  end
+
+  app_post_user = lambda do
+    request_url = "#{settings.api_server}/#{settings.api_ver}/users"
+    language = params[:language].split("\r\n")
+    location = params[:location].split("\r\n")
+    params_h = {
+      language: language,
+      location: location
+    }
+
+    options =  {  body: params_h.to_json,
+                  headers: { 'Content-Type' => 'application/json' }
+               }
+
+    result = HTTParty.post(request_url, options)
+
+    if (result.code != 200)
+      flash[:notice] = 'Could not process your request'
+      redirect '/users'
+      return nil
+    end
+
+    id = result.request.last_uri.path.split('/').last
+    # session[:results] = result.to_json
+    # session[:action] = :create
+    redirect "/users/#{id}"
+  end
+  
+
   # Web App Views Routes
   get '/', &app_get_root
-
-
+  get '/users', &app_get_user
+  get '/users/:id/?', &app_get_movie
+  post '/users', &app_post_user
 
 
 end
