@@ -3,7 +3,7 @@ require_relative 'spec_helper'
 
 describe 'Getting the root of the service' do
   it 'Should return ok' do
-    get '/'
+    get '/api/v1'
     last_response.must_be :ok?
     last_response.body.must_match(/api v/i, /welcome/i)
   end

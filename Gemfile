@@ -5,11 +5,16 @@ ruby '2.2.0'
 gem 'sinatra'
 gem 'sinatra-contrib'
 gem 'kandianying'
-gem 'thin'
+gem 'puma'
 
 gem 'activerecord'
 gem 'sinatra-activerecord'
 gem 'tux'
+
+gem 'hirb'
+gem 'httparty'
+gem 'sinatra-flash'
+gem 'slim'
 
 group :development, :test do
   gem 'sqlite3'
