@@ -5,8 +5,8 @@ require 'virtus'
 class CrawlResult
   include Virtus.model
 
-  attribute :name
-  attribute :time
+  attribute :code
+  attribute :id
 
   def to_json
     to_hash.to_json
@@ -15,10 +15,10 @@ end
 
 ##
 # Service object to check tutorial request from API
-class CheckTutorialFromAPI
-  def initialize(api_url, form)
+class Service
+  def initialize(api_url, user_form)
     @api_url = api_url
-    params = form.attributes.delete_if { |_, value| value.blank? }
+    params = user_form.attributes.delete_if { |_, value| value.blank? }
     @options =  { body: params.to_json,
                   headers: { 'Content-Type' => 'application/json' }
                 }
