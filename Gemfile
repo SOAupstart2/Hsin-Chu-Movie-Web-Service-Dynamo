@@ -16,6 +16,9 @@ gem 'httparty'
 gem 'sinatra-flash'
 gem 'slim'
 
+gem 'virtus'
+gem 'activemodel'
+
 group :development, :test do
   gem 'sqlite3'
 end

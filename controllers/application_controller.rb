@@ -137,14 +137,18 @@ class ApplicationController < Sinatra::Base
 
   app_post_user = lambda do
     request_url = "#{settings.api_server}/#{settings.api_ver}/users"
-    language = params[:language]
-    location = params[:location]
-    params_h = {
-      language: language,
-      location: location
-    }
+    # language = params[:language]
+    # location = params[:location]
+    # params_h = {
+    #   language: language,
+    #   location: location
+    # }
+    # user_form = UserForm.new(:language => params[:language], :location => params[:location])
+    user_form = UserForm.new(params)
+    error_send(back, "Following fields are required: #{form.error_fields}") \
+      unless user_form.valid?
 
-    options =  {  body: params_h.to_json,
+    options =  {  body: user_form.to_json,
                   headers: { 'Content-Type' => 'application/json' }
                }
 
