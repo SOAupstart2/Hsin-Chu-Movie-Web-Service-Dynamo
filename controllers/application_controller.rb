@@ -50,46 +50,57 @@ class ApplicationController < Sinatra::Base
   end
 
   api_get_movie_name = lambda do
-    content_type :json
-    cinema_names(params[:theater_id])
+    content_type :json, charset: 'utf-8'
+    cinema = create_cinema(request)
+    movies = CheckFilmsOnDisplayInThisPeriod.new cinema
+    movies.call
   end
 
   api_get_movie_info = lambda do
-    content_type :json
-    cinema_table(params[:theater_id])
+    content_type :json, charset: 'utf-8'
+    cinema = create_cinema(request)
+    show_times = CheckFilmShowTimesInThisPeriod.new cinema
+    show_times.call
   end
 
   api_get_user_info = lambda do
-    content_type :json
+    content_type :json, charset: 'utf-8'
     begin
       user = User.find(params[:id])
       location = user.location
       language = user.language
       film_name = params[:name]
       date_time = params[:time]
-      logger.info({ id: user.id,
-                    location: location,
-                    language: language,
-                    name: film_name,
-                    time: date_time
-                    }.to_json)
+      # logger.info({ id: user.id, location: location, language: language,
+      #               name: film_name, time: date_time }.to_json)
     rescue => e
       logger.error "Fail: #{e}"
       halt 404
     end
 
-    user_info = { id: user.id,
-                  location: location,
-                  language: language }
-    search_name = film_name ? film_times(location, film_name) : {}
-    search_time = date_time ? films_after_time(location, date_time) : {}
+    user_info = { id: user.id, location: location, language: language }
+    if request.path[6] == '1'
+      search_name = film_name ? film_times(location, film_name) : {}
+      search_time = date_time ? films_after_time(location, date_time) : {}
+    elsif request.path[6] == '2'
+      search_name =
+        if film_name
+          CheckTimesForFilm.new(location, language, film_name).call
+        else {}
+        end
+      search_time =
+        if date_time
+          CheckFilmsAfterTime.new(location, language, date_time).call
+        else {}
+        end
+    end
 
     { user_info: user_info, search_name: search_name,
       search_time: search_time }.to_json
   end
 
   api_post_user_info = lambda do
-    content_type :json
+    content_type :json, charset: 'utf-8'
     begin
       req = JSON.parse(request.body.read)
       logger.info req
@@ -97,9 +108,7 @@ class ApplicationController < Sinatra::Base
       halt 400
     end
 
-    user = User.new(
-      location: req['location'],
-      language: req['language'])
+    user = User.new(location: req['location'], language: req['language'])
 
     if user.save
       status 201
@@ -117,64 +126,64 @@ class ApplicationController < Sinatra::Base
   post '/api/v1/users/?', &api_post_user_info
 
   # Web API Routes v2
-  get '/api/v2/cinema/:theater_id/movies/?', &api_get_movie_name
-  get '/api/v2/cinema/:theater_id.json', &api_get_movie_info
+  get '/api/v2/:cinema/:language/:theater_id/movies/?', &api_get_movie_name
+  get '/api/v2/:cinema/:language/:theater_id.json', &api_get_movie_info
   get '/api/v2/users/:id/?', &api_get_user_info
   post '/api/v2/users/?', &api_post_user_info
 
-  helpers do
-    def current_page?(path = ' ')
-      path_info = request.path_info
-      path_info += ' ' if path_info == '/'
-      request_path = path_info.split '/'
-      request_path[1] == path
-    end
-  end
-
-  app_get_root = lambda do
-    slim :home
-  end
-
-  app_get_user = lambda do
-    slim :user
-  end
-
-  app_get_movie = lambda do
-    @id = params[:id]
-    if params[:name] || params[:time]
-      @name = params[:name]
-      @time = params[:time]
-      request_url = "#{settings.api_server}/#{settings.api_ver}/users/#{@id}"\
-        "/?name=#{@name}"
-      @result = HTTParty.get(request_url)
-    end
-    # logger.info @result
-    slim :movie
-  end
-
-  app_post_user = lambda do
-    request_url = "#{settings.api_server}/#{settings.api_ver}/users"
-
-    user_form = UserForm.new(params)
-    error_send(back, "Following fields are required: #{form.error_fields}") \
-      unless user_form.valid?
-
-    result = Service.new(request_url, user_form).call
-
-    if (result.code != 200)
-      flash[:notice] = 'Could not process your request'
-      redirect '/users'
-      return nil
-    end
-
-    # session[:results] = result.to_json
-    # session[:action] = :create
-    redirect "/users/#{result.id}"
-  end
-
-  # Web App Views Routes
-  get '/', &app_get_root
-  get '/users', &app_get_user
-  get '/users/:id/?', &app_get_movie
-  post '/users', &app_post_user
+  # helpers do
+  #   def current_page?(path = ' ')
+  #     path_info = request.path_info
+  #     path_info += ' ' if path_info == '/'
+  #     request_path = path_info.split '/'
+  #     request_path[1] == path
+  #   end
+  # end
+  #
+  # app_get_root = lambda do
+  #   slim :home
+  # end
+  #
+  # app_get_user = lambda do
+  #   slim :user
+  # end
+  #
+  # app_get_movie = lambda do
+  #   @id = params[:id]
+  #   if params[:name] || params[:time]
+  #     @name = params[:name]
+  #     @time = params[:time]
+  #     request_url = "#{settings.api_server}/#{settings.api_ver}/users/#{@id}"\
+  #       "/?name=#{@name}"
+  #     @result = HTTParty.get(request_url)
+  #   end
+  #   # logger.info @result
+  #   slim :movie
+  # end
+  #
+  # app_post_user = lambda do
+  #   request_url = "#{settings.api_server}/#{settings.api_ver}/users"
+  #
+  #   user_form = UserForm.new(params)
+  #   error_send(back, "Following fields are required: #{form.error_fields}") \
+  #     unless user_form.valid?
+  #
+  #   result = Service.new(request_url, user_form).call
+  #
+  #   if (result.code != 200)
+  #     flash[:notice] = 'Could not process your request'
+  #     redirect '/users'
+  #     return nil
+  #   end
+  #
+  #   # session[:results] = result.to_json
+  #   # session[:action] = :create
+  #   redirect "/users/#{result.id}"
+  # end
+  #
+  # # Web App Views Routes
+  # get '/', &app_get_root
+  # get '/users', &app_get_user
+  # get '/users/:id/?', &app_get_movie
+  # post '/users', &app_post_user
 end

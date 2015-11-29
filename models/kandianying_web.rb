@@ -15,7 +15,7 @@ end
 # Cinema information Class for API v1
 class CinemaInfo
   include CinemaInfoMethods
-  attr_reader :movie_table, :movie_names
+  attr_reader :movie_table, :movie_names, :cinema
 
   def initialize(theater_id)
     @cinema = HsinChuMovie::Vieshow.new(theater_id, 'english')
@@ -27,10 +27,14 @@ end
 # Cinema information Class for API v2
 class CinemaInfoV2
   include CinemaInfoMethods
-  attr_reader :movie_table, :movie_names
+  attr_reader :movie_table, :movie_names, :cinema
 
-  def initialize(theater_id, language)
-    @cinema = HsinChuMovie::Vieshow.new(theater_id, language)
+  def initialize(theater_id, language, cinema)
+    if cinema == 'vieshow'
+      @cinema = HsinChuMovie::Vieshow.new(theater_id, language)
+    elsif cinema == 'ambassador'
+      @cinema = HsinChuMovie::Ambassador.new(theater_id, language)
+    end
     @movie_table = @cinema.movie_table
     @movie_names = @cinema.movie_names
   end
