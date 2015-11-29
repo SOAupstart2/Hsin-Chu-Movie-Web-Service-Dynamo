@@ -41,13 +41,4 @@ module AppHelpers
     logger.error "Fail: #{e}"
     halt 400
   end
-  # def check_movie_info(movie_names, times)
-  #   @check_info = {}
-  #   movie_names.map do |movie_name|
-  #     found = MovieInfo.new(movie_name).times
-  #     [movie_name, times.select {|time| !found.include? time}]
-  #   end.to_h
-  # rescue
-  #   halt 404
-  # end
 end

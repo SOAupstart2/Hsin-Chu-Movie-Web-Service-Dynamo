@@ -6,26 +6,37 @@ require 'slim'
 
 # Web Service for Hsinchu cinemas
 class ApplicationController < Sinatra::Base
+  use Rack::MethodOverride
+  register Sinatra::Flash
   helpers AppHelpers
   enable :sessions
-  register Sinatra::Flash
-  use Rack::MethodOverride
 
   set :views, File.expand_path('../../views', __FILE__)
   set :public_folder, File.expand_path('../../public', __FILE__)
 
   configure do
     Hirb.enable
-    set :session_secret, 'something'
-    set :api_ver, 'api/v1'
+    # set :session_secret, 'something'
   end
 
-  configure :development, :test do
+  # configure :development, :test do
+  #   set :api_server, 'http://localhost:9292'
+  #   set :api_ver, 'api/v2'
+  # end
+
+  configure :development do
     set :api_server, 'http://localhost:9292'
+    set :api_ver, 'api/v2'
+  end
+
+  configure :test do
+    set :api_server, 'http://localhost:9292'
+    set :api_ver, 'api/v1'
   end
 
   configure :production do
     set :api_server, 'http://kandianying.herokuapp.com'
+    set :api_ver, 'api/v1'
   end
 
   configure :production, :development do
@@ -33,8 +44,8 @@ class ApplicationController < Sinatra::Base
   end
 
   api_get_root = lambda do
-    'Welcome to our API v1. Here\'s '\
-    ' <a href="https://github.com/SOAupstart2/Hsin-Chu-Movie-Web-Service">'\
+    "Welcome to our API #{params['version']}. Here's "\
+    '<a href="https://github.com/SOAupstart2/Hsin-Chu-Movie-Web-Service">'\
     'our github homepage</a>.'
   end
 
@@ -92,18 +103,24 @@ class ApplicationController < Sinatra::Base
 
     if user.save
       status 201
-      redirect "/api/v1/users/#{user.id}", 303
+      redirect "/#{settings.api_ver}/users/#{user.id}", 303
     else
       halt 500, 'Error saving user request to the database'
     end
   end
 
-  # Web API Routes
-  get '/api/v1/?', &api_get_root
+  # Web API Routes v1
+  get '/api/:version/?', &api_get_root
   get '/api/v1/cinema/:theater_id/movies/?', &api_get_movie_name
   get '/api/v1/cinema/:theater_id.json', &api_get_movie_info
   get '/api/v1/users/:id/?', &api_get_user_info
   post '/api/v1/users/?', &api_post_user_info
+
+  # Web API Routes v2
+  get '/api/v2/cinema/:theater_id/movies/?', &api_get_movie_name
+  get '/api/v2/cinema/:theater_id.json', &api_get_movie_info
+  get '/api/v2/users/:id/?', &api_get_user_info
+  post '/api/v2/users/?', &api_post_user_info
 
   helpers do
     def current_page?(path = ' ')
