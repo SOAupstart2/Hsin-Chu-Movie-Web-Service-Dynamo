@@ -27,17 +27,17 @@ http_interactions:
       Server:
       - Microsoft-IIS/7.5
       Set-Cookie:
-      - ASP.NET_SessionId=izqrfv55m3dq0h452pimw4m5; path=/; HttpOnly
-      - visSessionID=8e3af9bd57524486ba42a8a89890ba04; expires=Tue, 29-Dec-2015 05:06:29
+      - ASP.NET_SessionId=bp2rcl45xubafpfq00vevg55; path=/; HttpOnly
+      - visSessionID=a357fe48e3044c0ba2f056bae401fb54; expires=Tue, 29-Dec-2015 05:32:31
         GMT; path=/
       X-Aspnet-Version:
       - 2.0.50727
       X-Powered-By:
       - ASP.NET
       Date:
-      - Sun, 29 Nov 2015 05:06:29 GMT
+      - Sun, 29 Nov 2015 05:32:30 GMT
       Content-Length:
-      - '15079'
+      - '15072'
     body:
       encoding: UTF-8
       string: "\r\n<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\r\n<HTML>\r\n\t<HEAD>\r\n\t\t<title>\r\n\t\t\t***Vieshow
@@ -184,8 +184,8 @@ http_interactions:
         22:20</td>\r\n\t</tr><tr>\r\n\t\t<td colspan=\"2\"></td>\r\n\t</tr><tr>\r\n\t\t<td
         class=\"PrintShowTimesFilm\" colspan=\"2\">(DIG)THE TAG ALONG (PG15)</td>\r\n\t</tr><tr>\r\n\t\t<td
         class=\"PrintShowTimesDay\" valign=\"top\" colspan=\"1\">Nov 29 Sun</td><td
-        class=\"PrintShowTimesSession\" valign=\"top\" colspan=\"1\">13:20, 15:10,
-        17:00, 18:50, 20:40, 22:40, 00:40</td>\r\n\t</tr><tr>\r\n\t\t<td class=\"PrintShowTimesDay\"
+        class=\"PrintShowTimesSession\" valign=\"top\" colspan=\"1\">15:10, 17:00,
+        18:50, 20:40, 22:40, 00:40</td>\r\n\t</tr><tr>\r\n\t\t<td class=\"PrintShowTimesDay\"
         valign=\"top\" colspan=\"1\">Nov 30 Mon</td><td class=\"PrintShowTimesSession\"
         valign=\"top\" colspan=\"1\">10:10, 12:00, 13:50, 15:40, 17:30, 19:20, 21:10,
         23:10</td>\r\n\t</tr><tr>\r\n\t\t<td class=\"PrintShowTimesDay\" valign=\"top\"
@@ -235,5 +235,5 @@ http_interactions:
         class=\"PrintShowTimesDay\" valign=\"top\" colspan=\"1\">Dec 2 Wed</td><td
         class=\"PrintShowTimesSession\" valign=\"top\" colspan=\"1\">17:50</td>\r\n\t</tr>\r\n</table>\r\n\t\t\t</form>\r\n\t</body>\r\n</HTML>\r\n"
     http_version: 
-  recorded_at: Sun, 29 Nov 2015 05:06:30 GMT
+  recorded_at: Sun, 29 Nov 2015 05:32:31 GMT
 recorded_with: VCR 3.0.0
