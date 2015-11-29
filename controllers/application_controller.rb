@@ -1,13 +1,10 @@
 require 'sinatra/base'
-require 'sinatra/flash'
 require 'httparty'
 require 'hirb'
-require 'slim'
 
 # Web Service for Hsinchu cinemas
 class ApplicationController < Sinatra::Base
   use Rack::MethodOverride
-  register Sinatra::Flash
   helpers AppHelpers
   enable :sessions
 
@@ -16,7 +13,6 @@ class ApplicationController < Sinatra::Base
 
   configure do
     Hirb.enable
-    # set :session_secret, 'something'
   end
 
   # configure :development, :test do
@@ -130,60 +126,4 @@ class ApplicationController < Sinatra::Base
   get '/api/v2/:cinema/:language/:theater_id.json', &api_get_movie_info
   get '/api/v2/users/:id/?', &api_get_user_info
   post '/api/v2/users/?', &api_post_user_info
-
-  # helpers do
-  #   def current_page?(path = ' ')
-  #     path_info = request.path_info
-  #     path_info += ' ' if path_info == '/'
-  #     request_path = path_info.split '/'
-  #     request_path[1] == path
-  #   end
-  # end
-  #
-  # app_get_root = lambda do
-  #   slim :home
-  # end
-  #
-  # app_get_user = lambda do
-  #   slim :user
-  # end
-  #
-  # app_get_movie = lambda do
-  #   @id = params[:id]
-  #   if params[:name] || params[:time]
-  #     @name = params[:name]
-  #     @time = params[:time]
-  #     request_url = "#{settings.api_server}/#{settings.api_ver}/users/#{@id}"\
-  #       "/?name=#{@name}"
-  #     @result = HTTParty.get(request_url)
-  #   end
-  #   # logger.info @result
-  #   slim :movie
-  # end
-  #
-  # app_post_user = lambda do
-  #   request_url = "#{settings.api_server}/#{settings.api_ver}/users"
-  #
-  #   user_form = UserForm.new(params)
-  #   error_send(back, "Following fields are required: #{form.error_fields}") \
-  #     unless user_form.valid?
-  #
-  #   result = Service.new(request_url, user_form).call
-  #
-  #   if (result.code != 200)
-  #     flash[:notice] = 'Could not process your request'
-  #     redirect '/users'
-  #     return nil
-  #   end
-  #
-  #   # session[:results] = result.to_json
-  #   # session[:action] = :create
-  #   redirect "/users/#{result.id}"
-  # end
-  #
-  # # Web App Views Routes
-  # get '/', &app_get_root
-  # get '/users', &app_get_user
-  # get '/users/:id/?', &app_get_movie
-  # post '/users', &app_post_user
 end
