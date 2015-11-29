@@ -15,18 +15,15 @@ class ApplicationController < Sinatra::Base
     Hirb.enable
   end
 
-  # configure :development, :test do
-  #   set :api_server, 'http://localhost:9292'
-  #   set :api_ver, 'api/v2'
-  # end
+  configure :development, :test do
+    set :api_server, 'http://localhost:9292'
+  end
 
   configure :development do
-    set :api_server, 'http://localhost:9292'
     set :api_ver, 'api/v2'
   end
 
   configure :test do
-    set :api_server, 'http://localhost:9292'
     set :api_ver, 'api/v1'
   end
 
@@ -37,6 +34,13 @@ class ApplicationController < Sinatra::Base
 
   configure :production, :development do
     enable :logging
+  end
+
+  get_root = lambda do
+    'Welcome. We\'ve  got 2 versions up and running:<br\><ul>'\
+    '<li><a href="/api/v1">/api/v1</a> - tested but with limited'\
+    ' functionality</li><li><a href="/api/v2">/api/v2</a> - no written tests '\
+    'but much greater functionality</li></ul>'
   end
 
   api_get_root = lambda do
@@ -113,6 +117,8 @@ class ApplicationController < Sinatra::Base
       halt 500, 'Error saving user request to the database'
     end
   end
+
+  get '/', &get_root
 
   # Web API Routes v1
   get '/api/:version/?', &api_get_root
