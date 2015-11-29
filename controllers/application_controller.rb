@@ -73,9 +73,8 @@ class ApplicationController < Sinatra::Base
     search_name = film_name ? film_times(location, film_name) : {}
     search_time = date_time ? films_after_time(location, date_time) : {}
 
-    {user_info: user_info,
-     search_name: search_name,
-     search_time: search_time}.to_json
+    { user_info: user_info, search_name: search_name,
+      search_time: search_time }.to_json
   end
 
   api_post_user_info = lambda do
@@ -98,14 +97,14 @@ class ApplicationController < Sinatra::Base
       halt 500, 'Error saving user request to the database'
     end
   end
-  
+
   # Web API Routes
   get '/api/v1/?', &api_get_root
   get '/api/v1/cinema/:theater_id/movies/?', &api_get_movie_name
   get '/api/v1/cinema/:theater_id.json', &api_get_movie_info
   get '/api/v1/users/:id/?', &api_get_user_info
   post '/api/v1/users/?', &api_post_user_info
-  
+
   helpers do
     def current_page?(path = ' ')
       path_info = request.path_info
@@ -125,10 +124,11 @@ class ApplicationController < Sinatra::Base
 
   app_get_movie = lambda do
     @id = params[:id]
-    if params[:name] or params[:time]
+    if params[:name] || params[:time]
       @name = params[:name]
       @time = params[:time]
-      request_url = "#{settings.api_server}/#{settings.api_ver}/users/#{@id}/?name=#{@name}"
+      request_url = "#{settings.api_server}/#{settings.api_ver}/users/#{@id}"\
+        "/?name=#{@name}"
       @result = HTTParty.get(request_url)
     end
     # logger.info @result
@@ -143,24 +143,21 @@ class ApplicationController < Sinatra::Base
       unless user_form.valid?
 
     result = Service.new(request_url, user_form).call
-    
+
     if (result.code != 200)
       flash[:notice] = 'Could not process your request'
       redirect '/users'
       return nil
     end
-        
+
     # session[:results] = result.to_json
     # session[:action] = :create
     redirect "/users/#{result.id}"
   end
-  
 
   # Web App Views Routes
   get '/', &app_get_root
   get '/users', &app_get_user
   get '/users/:id/?', &app_get_movie
   post '/users', &app_post_user
-
-
 end

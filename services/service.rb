@@ -19,9 +19,8 @@ class Service
   def initialize(api_url, user_form)
     @api_url = api_url
     params = user_form.attributes.delete_if { |_, value| value.blank? }
-    @options =  { body: params.to_json,
-                  headers: { 'Content-Type' => 'application/json' }
-                }
+    @options = { body: params.to_json,
+                 headers: { 'Content-Type' => 'application/json' } }
   end
 
   def call
