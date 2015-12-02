@@ -9,6 +9,7 @@ require 'rack/test'
 require 'vcr'
 require 'webmock/minitest'
 require 'yaml'
+require 'virtus'
 
 include Rack::Test::Methods
 system 'RACK_ENV=test rake db:migrate'

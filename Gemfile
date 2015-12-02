@@ -16,6 +16,8 @@ gem 'httparty'
 
 gem 'activemodel'
 
+gem 'virtus'
+
 group :development, :test do
   gem 'sqlite3'
 end
