@@ -76,13 +76,17 @@ class ApplicationController < Sinatra::Base
   api_post_user_info = lambda do
     content_type :json, charset: 'utf-8'
     begin
-      req = JSON.parse(request.body.read)
-      logger.info req
-    rescue
+      req = JSON.parse(request.body.read.to_s)
+      user = UserSanitizer.new(
+        location: req['location'], language: req['language']
+      )
+      halt 400 unless user.valid?
+    rescue => e
+      logger.error "Fail: #{e}"
       halt 400
     end
 
-    user = User.new(location: req['location'], language: req['language'])
+    user = User.new(location: user.location, language: user.language)
 
     if user.save
       status 201

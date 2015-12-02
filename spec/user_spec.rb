@@ -1,10 +1,10 @@
 require_relative 'spec_helper'
 
 describe 'Redirect check' do
-  header = { 'CONTENT-TYPE' => 'application/json' }
+  header = { 'CONTENT_TYPE' => 'application/json' }
 
   it 'should be redirect' do
-    body = { 'location' => 'taiwan', 'language' => 'chinese' }
+    body = { 'location' => 'hsinchu', 'language' => 'chinese' }
     post 'api/v1/users', body.to_json, header
 
     last_response.must_be :redirect?

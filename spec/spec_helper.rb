@@ -1,6 +1,6 @@
 ENV['RACK_ENV'] = 'test'
 
-Dir.glob('./{models,helpers,controllers,services}/*.rb').each do |file|
+Dir.glob('./{models,helpers,controllers,services,values}/*.rb').each do |file|
   require file
 end
 require 'minitest/autorun'
@@ -9,6 +9,7 @@ require 'rack/test'
 require 'vcr'
 require 'webmock/minitest'
 require 'yaml'
+require 'virtus'
 
 include Rack::Test::Methods
 system 'RACK_ENV=test rake db:migrate'

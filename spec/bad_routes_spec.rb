@@ -20,4 +20,11 @@ describe 'Bad Tests' do
     post '/api/v1/users', body, header
     last_response.must_be :bad_request?
   end
+
+  it 'should be fail for not \'english\' of \'chinese\'' do
+    header = { 'CONTENT-TYPE' => 'application/json' }
+    body = { 'location' => 'hsinchu', 'language' => 'ch' }
+    post 'api/v1/users', body.to_json, header
+    last_response.must_be :bad_request?
+  end
 end
