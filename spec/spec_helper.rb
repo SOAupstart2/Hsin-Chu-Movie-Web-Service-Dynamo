@@ -13,10 +13,17 @@ require 'yaml'
 include Rack::Test::Methods
 system 'RACK_ENV=test rake db:migrate'
 
-TEST_SITES = %w(05 12)
+CINEMA = {
+  vieshow: %w(05 12),
+  ambassador: %w(38897fa9-094f-4e63-9d6d-c52408438cb6
+                 5c2d4697-7f54-4955-800c-7b3ad782582c)
+}
+LANGUAGE = %w(chinese english)
 FAIL_SITES = 10.times.map { Random.new.rand(100) } - (1..14).to_a
-TEST_INFO = %w(name table)
-FIXTURES = './spec/fixtures/vieshow_'
+FIX = {
+  vieshow: './spec/fixtures/vieshow_',
+  ambassador: './spec/fixtures/ambassador_'
+}
 
 def app
   ApplicationController
