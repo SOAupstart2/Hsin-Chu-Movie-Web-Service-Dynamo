@@ -97,8 +97,7 @@ class ApplicationController < Sinatra::Base
   end
 
   # Web API Routes v1
-  get '/', &api_get_root
-  get '/api/v1/?', &api_get_root
+  ['/', '/api/v1/?'].each { |path| get path, &api_get_root }
   get '/api/v1/:cinema/:language/:theater_id/movies/?', &api_get_movie_name
   get '/api/v1/:cinema/:language/:theater_id.json', &api_get_movie_info
   get '/api/v1/users/:id/?', &api_get_user_info
