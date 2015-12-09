@@ -1,4 +1,4 @@
-Dir.glob('./{models,helpers,controllers,services}/*.rb').each do |file|
+Dir.glob('./{models,helpers,config,values,services,controllers}/init.rb').each do |file|
   require file
 end
 require 'sinatra/activerecord/rake'
