@@ -19,5 +19,5 @@ describe 'Redirect check' do
 
   #   follow_redirect!
   #   last_request.url.must_match %r{/api\/v1\/users\/\w+}
-  end
+  # end
 end
