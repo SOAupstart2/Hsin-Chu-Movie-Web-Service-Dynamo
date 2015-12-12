@@ -28,7 +28,7 @@ class ApplicationController < Sinatra::Base
 
   api_get_root = lambda do
     "Welcome to our API v1. Here's "\
-    '<a href="https://github.com/SOAupstart2/Hsin-Chu-Movie-Web-Service">'\
+    '<a href="https://github.com/SOAupstart2/Hsin-Chu-Movie-Web-Service-Dynamo">'\
     'our github homepage</a>.'
   end
 
