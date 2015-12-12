@@ -4,7 +4,7 @@ require 'active_support/core_ext'
 
 require 'config_env'
 require 'aws-sdk'
-require 'dalli'
+# require 'dalli'
 
 class ApplicationController < Sinatra::Base
   configure :development, :test do

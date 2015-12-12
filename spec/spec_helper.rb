@@ -1,8 +1,3 @@
-ENV['RACK_ENV'] = 'test'
-
-Dir.glob('./{models,helpers,config,values,services,controllers}/init.rb').each do |file|
-  require file
-end
 require 'minitest/autorun'
 require 'minitest/rg'
 require 'rack/test'
@@ -11,8 +6,13 @@ require 'webmock/minitest'
 require 'yaml'
 require 'virtus'
 
+ENV['RACK_ENV'] = 'test'
+
+Dir.glob('./{models,helpers,config,values,services,controllers}/init.rb').each do |file|
+  require file
+end
+
 include Rack::Test::Methods
-system 'RACK_ENV=test rake db:migrate'
 
 CINEMA = {
   vieshow: %w(05 12),

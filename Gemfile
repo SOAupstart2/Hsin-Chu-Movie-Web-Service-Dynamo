@@ -16,13 +16,6 @@ gem 'config_env'
 gem 'aws-sdk', '~> 2'
 gem 'dynamoid', '~> 1'
 
-group :development, :test do
-  gem 'sqlite3'
-end
-
-group :production do
-  gem 'pg'
-end
 
 group :test do
   gem 'minitest'
