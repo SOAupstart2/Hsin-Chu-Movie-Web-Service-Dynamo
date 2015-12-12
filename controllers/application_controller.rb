@@ -8,9 +8,6 @@ class ApplicationController < Sinatra::Base
   helpers AppHelpers
   enable :sessions
 
-  set :views, File.expand_path('../../views', __FILE__)
-  set :public_folder, File.expand_path('../../public', __FILE__)
-
   configure do
     Hirb.enable
   end
@@ -31,7 +28,7 @@ class ApplicationController < Sinatra::Base
 
   api_get_root = lambda do
     "Welcome to our API v1. Here's "\
-    '<a href="https://github.com/SOAupstart2/Hsin-Chu-Movie-Web-Service">'\
+    '<a href="https://github.com/SOAupstart2/Hsin-Chu-Movie-Web-Service-Dynamo">'\
     'our github homepage</a>.'
   end
 
@@ -78,7 +75,7 @@ class ApplicationController < Sinatra::Base
     begin
       req = JSON.parse(request.body.read.to_s)
       user = UserSanitizer.new(
-        location: req['location'], language: req['language']
+        location: req['location'], language: req['language'], search: req['search']
       )
       halt 400 unless user.valid?
     rescue => e
@@ -86,7 +83,7 @@ class ApplicationController < Sinatra::Base
       halt 400
     end
 
-    user = User.new(location: user.location, language: user.language)
+    user = User.new(location: user.location, language: user.language, search: user.search)
 
     if user.save
       status 201

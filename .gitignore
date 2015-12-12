@@ -1,5 +1,7 @@
 *_upload_not.rb
 
+config/config_env.rb
+
 db/*.db
 *.gem
 *.rbc
