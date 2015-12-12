@@ -1,4 +1,4 @@
-# Hsin-Chu-Movie-Web-Service [ ![Codeship Status for SOAupstart2/Hsin-Chu-Movie-Web-Service](https://codeship.com/projects/e9879d20-6210-0133-a4af-7e706f11b58d/status?branch=master)](https://codeship.com/projects/112582)
+# Hsin-Chu-Movie-Web-Service [ ![Codeship Status for SOAupstart2/Hsin-Chu-Movie-Web-Service-Dynamo](https://codeship.com/projects/55707910-82eb-0133-c213-7676354306ac/status?branch=master)](https://codeship.com/projects/121690)
 A simple version of a web service that scrapes cinema show times in Hsinchu using the [kandianying](https://github.com/SOAupstart2/Hsinchu_Movie) gem.
 
 Handles:
