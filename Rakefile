@@ -3,7 +3,7 @@ require 'config_env/rake_tasks'
 
 task default: :spec
 
-desc "Run all tests"
-Rake::TestTask.new(name=:spec) do |t|
+desc 'Run all tests'
+Rake::TestTask.new(:spec) do |t|
   t.pattern = 'spec/*_spec.rb'
 end

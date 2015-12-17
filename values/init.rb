@@ -1,3 +1,3 @@
-require_relative 'location'
-require_relative 'user_info'
-require_relative 'user_sanitizer'
+Dir.glob('values/*.rb').each do |file|
+  require_relative "../#{file}" unless file == 'values/init.rb'
+end
