@@ -1,4 +1,3 @@
-require_relative 'check_film_show_times_in_this_period'
-require_relative 'check_films_after_time'
-require_relative 'check_films_on_display_in_this_period'
-require_relative 'check_times_for_film'
+Dir.glob('services/*.rb').each do |file|
+  require_relative "../#{file}" unless file == 'services/init.rb'
+end

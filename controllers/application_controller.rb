@@ -27,8 +27,8 @@ class ApplicationController < Sinatra::Base
   end
 
   api_get_root = lambda do
-    "Welcome to our API v1. Here's "\
-    '<a href="https://github.com/SOAupstart2/Hsin-Chu-Movie-Web-Service-Dynamo">'\
+    "Welcome to our API v1. Here's <a "\
+    'href="https://github.com/SOAupstart2/Hsin-Chu-Movie-Web-Service-Dynamo">'\
     'our github homepage</a>.'
   end
 
@@ -75,7 +75,7 @@ class ApplicationController < Sinatra::Base
     begin
       req = JSON.parse(request.body.read.to_s)
       user = UserSanitizer.new(
-        location: req['location'], language: req['language'], search: req['search']
+        location: req['location'], language: req['language']
       )
       halt 400 unless user.valid?
     rescue => e
@@ -83,7 +83,7 @@ class ApplicationController < Sinatra::Base
       halt 400
     end
 
-    user = User.new(location: user.location, language: user.language, search: user.search)
+    user = User.new(location: user.location, language: user.language)
 
     if user.save
       status 201

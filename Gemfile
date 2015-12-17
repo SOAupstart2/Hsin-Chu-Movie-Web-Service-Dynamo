@@ -16,7 +16,6 @@ gem 'config_env'
 gem 'aws-sdk', '~> 2'
 gem 'dynamoid', '~> 1'
 
-
 group :test do
   gem 'minitest'
   gem 'minitest-rg'

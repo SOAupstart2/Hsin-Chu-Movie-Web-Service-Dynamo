@@ -16,7 +16,6 @@ class UserSanitizer
   include ActiveModel::Validations
 
   attribute :language, DownCase
-  attribute :search, DownCase
   validates_inclusion_of :language, in: ENG_CHI
   attribute :location, DownCase
 end

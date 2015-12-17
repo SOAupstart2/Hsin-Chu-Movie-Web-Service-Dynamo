@@ -1,2 +1,3 @@
-require_relative 'base'
-require_relative 'application_controller'
+Dir.glob('controllers/*.rb').each do |file|
+  require_relative "../#{file}" unless file == 'controllers/init.rb'
+end
