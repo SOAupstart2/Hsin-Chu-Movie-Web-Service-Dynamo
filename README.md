@@ -17,7 +17,7 @@ Handles:
 - POST `/api/v1/users`
   - Store the location and language preference for user.
   - Redirect to the page which shows the data input.
-  - Example: curl -v -d '{"location":"hsinchu","language":"english"}' http://localhost:9292/api/v1/users
+  - Example: curl -v -d '{"location":"new taipei city","language":"english"}' http://localhost:9292/api/v1/users
 - GET `/api/v1/users/:id`
   - You get your `:id` after the post request to `/api/v1/users`.
   - You can specify a `name` or `time` as part of your request.
