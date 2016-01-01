@@ -22,12 +22,12 @@ Handles:
   - Example: curl -v -d '{"location":"hsinchu","language":"english"}' http://localhost:9292/api/v1/users
 - GET `/api/v1/users/:id`
   - You get your `:id` after the post request to `/api/v1/users`.
-  - You can specify a `film_name` or `date_time` as part of your request.
-  - Sample `film_name` request:
-    - GET `/api/v1/users/1?film_name=007`
+  - You can specify a `name` or `time` as part of your request.
+  - Sample `name` request:
+    - GET `/api/v1/users/3a4265e2-1ab8-463e-acce-c98d525867c0?name=007`
       - This would return the viewing times for the found film in the language you saved and at the cinemas in the location saved.
-  - Sample `date_time` request:
-    - GET `/api/v1/users/1?date_time=Dec 13 18:00`
+  - Sample `time` requests:
+    - GET `/api/v1/users/3a4265e2-1ab8-463e-acce-c98d525867c0?time=Dec 13 18:00`
       - This would return the viewing times for films shown after the specified time on specified date in the language you saved and at the cinemas in the location saved.
-    - GET `/api/v1/users/1?date_time=18:00`
+    - GET `/api/v1/users/3a4265e2-1ab8-463e-acce-c98d525867c0?time=18:00`
       - This would return the viewing times for films shown after the specified time on current date in the language you saved and at the cinemas in the location saved.
