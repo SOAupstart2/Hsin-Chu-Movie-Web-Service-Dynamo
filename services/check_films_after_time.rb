@@ -2,18 +2,24 @@
 class CheckFilmsAfterTime
   include AppHelpers
   def initialize(user_info, date_time)
-    location = Location.new(user_info.location)
-    @location_codes = location.codes
     @date_time = date_time
     @language = user_info.language
+    @location = user_info.location
+  end
+
+  def pick_cinema
+    if @language == 'chinese'
+      ChineseCinema.where(location: @location).all
+    elsif @language == 'english'
+      EnglishCinema.where(location: @location).all
+    end[0]
   end
 
   def call(result = [])
-    @location_codes.each do |vie_amb, codes|
-      codes.each do |code|
-        params = { theater_id: code, language: @language, cinema: vie_amb }
-        cinema = create_cinema(params)
-        result.push([cinema.cinema_name, cinema.films_after_time(@date_time)])
+    JSON.parse(pick_cinema.data).each do |_vie_amb, codes|
+      codes.each do |_code, data|
+        res = SearchMovieTable.new('time', date_time: @date_time, data: data)
+        result.push([data['cinema_name'], res.call])
       end; end
     result.to_h
   rescue => e
