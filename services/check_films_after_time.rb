@@ -16,7 +16,7 @@ class CheckFilmsAfterTime
   end
 
   def call(result = [])
-    JSON.parse(pick_cinema.data).each do |_vie_amb, codes|
+    JSON.parse(pick_cinema.data.gsub('=>', ':')).each do |_vie_amb, codes|
       codes.each do |_code, data|
         res = SearchMovieTable.new('time', date_time: @date_time, data: data)
         result.push([data['cinema_name'], res.call])
