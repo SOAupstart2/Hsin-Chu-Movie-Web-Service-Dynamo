@@ -8,8 +8,8 @@ class SearchMovieTable
     # search_type can be either 'name' or 'time'
     @search_type = search_type
     @query_param = search_type == 'name' ? data[:film_name] : data[:date_time]
-    @movie_names = data[:data]['movie_names']
-    @movie_table = data[:data]['movie_table']
+    @movie_names = JSON.parse data[:data]['movie_names']
+    @movie_table = JSON.parse data[:data]['movie_table']
   end
 
   def call
