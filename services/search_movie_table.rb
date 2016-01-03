@@ -1,3 +1,5 @@
+require 'base64'
+
 AN_HOUR = 1 / 24.to_f
 TIMEZONE = '+8'
 MIDNIGHT = %w(00 01 02 03)
@@ -8,8 +10,10 @@ class SearchMovieTable
     # search_type can be either 'name' or 'time'
     @search_type = search_type
     @query_param = search_type == 'name' ? data[:film_name] : data[:date_time]
-    @movie_names = JSON.parse data[:data]['movie_names']
-    @movie_table = JSON.parse data[:data]['movie_table']
+    @movie_names = JSON.parse(Base64.urlsafe_decode64(
+                                data[:data]['movie_names']))
+    @movie_table = JSON.parse(Base64.urlsafe_decode64(
+                                data[:data]['movie_table']))
   end
 
   def call
@@ -25,7 +29,7 @@ class SearchMovieTable
     find_film.each do |film|
       temp_table[film] = @movie_table.values[0][film]
     end
-    temp_table
+    [@movie_table.keys[0], temp_table]
   end
 
   def films_on_day(temp_table = {})
@@ -53,6 +57,6 @@ class SearchMovieTable
         temp_table[name] = { date => time_array } unless time_array.empty?
       end
     end
-    temp_table
+    [@movie_table.keys[0], temp_table]
   end
 end

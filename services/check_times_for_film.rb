@@ -19,7 +19,7 @@ class CheckTimesForFilm
     JSON.parse(pick_cinema.data.gsub('=>', ':')).each do |_vie_amb, codes|
       codes.each do |_code, data|
         res = SearchMovieTable.new('name', film_name: @film_name, data: data)
-        result.push([data['cinema_name'], res.call])
+        result.push(res.call)
       end; end
     result.to_h
   rescue => e
