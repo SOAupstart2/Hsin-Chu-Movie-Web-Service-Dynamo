@@ -12,8 +12,8 @@ class DownCase < Virtus::Attribute
   end
 end
 
-# class to sanitize user prior to saving to db
-class UserSanitizer
+# Value object to sanitize search
+class SearchSanitizer
   include Virtus.model
   include ActiveModel::Validations
 

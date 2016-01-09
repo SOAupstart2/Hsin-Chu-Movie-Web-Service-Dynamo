@@ -1,10 +1,10 @@
 # Service class to check for films shown after a given time
 class CheckFilmsAfterTime
   include AppHelpers
-  def initialize(user_info, date_time)
-    @date_time = date_time
-    @language = user_info.language
-    @location = user_info.location
+  def initialize(search_info)
+    @date_time = search_info.time
+    @language = search_info.language
+    @location = search_info.location
   end
 
   def pick_cinema

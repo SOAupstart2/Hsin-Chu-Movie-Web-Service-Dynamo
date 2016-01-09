@@ -16,18 +16,13 @@ describe 'Bad Tests' do
         end; end; end
   end
 
-  it 'should return 400 for bad JSON formatting' do
-    header = { 'CONTENT-TYPE' => 'application/json' }
-    body = 'aaaaaaaaaaaaaaaaaaaaaaaaa'
-
-    post '/api/v1/users', body, header
+  it 'should return 400 for bad request' do
+    get '/api/v1/search?body=aaaaaaaaaaaaaaaaaaaaaaaaa'
     last_response.must_be :bad_request?
   end
 
   it 'should be fail for not \'english\' of \'chinese\'' do
-    header = { 'CONTENT-TYPE' => 'application/json' }
-    body = { 'location' => 'hsinchu', 'language' => 'ch' }
-    post 'api/v1/users', body.to_json, header
+    get '/api/v1/search?location=hsinchu&langauge=ch'
     last_response.must_be :bad_request?
   end
 end
