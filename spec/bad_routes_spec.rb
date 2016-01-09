@@ -1,6 +1,5 @@
 require_relative 'spec_helper'
 
-# TODO: Original bad tests, needs work
 describe 'Bad Tests' do
   CINEMA.each do |cinema, _|
     fail_sites = if cinema.to_s == 'vieshow' then VIESHOW_FAIL_SITES
@@ -17,7 +16,7 @@ describe 'Bad Tests' do
   end
 
   it 'should return 400 for bad request' do
-    get '/api/v1/search?body=aaaaaaaaaaaaaaaaaaaaaaaaa'
+    get '/api/v1/search'
     last_response.must_be :bad_request?
   end
 
