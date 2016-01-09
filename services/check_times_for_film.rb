@@ -1,10 +1,10 @@
 # Service class to check time for a given film
 class CheckTimesForFilm
   include AppHelpers
-  def initialize(user_info, film_name)
-    @film_name = film_name
-    @language = user_info.language
-    @location = user_info.location
+  def initialize(search_info)
+    @film_name = search_info.name
+    @language = search_info.language
+    @location = search_info.location
   end
 
   def pick_cinema

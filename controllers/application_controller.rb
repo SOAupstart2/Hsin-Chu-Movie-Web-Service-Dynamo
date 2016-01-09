@@ -46,57 +46,32 @@ class ApplicationController < Sinatra::Base
     show_times.call
   end
 
-  api_get_user_info = lambda do
+  api_get_search_info = lambda do
     content_type :json, charset: 'utf-8'
-    begin
-      user = User.find(params[:id])
-      user_info = UserInfo.new(user)
-      film_name = params[:name]
-      date_time = params[:time]
-    rescue => e
-      logger.error "Fail: #{e}"
-      halt 404
-    end
 
-    search_name = if film_name
-                    CheckTimesForFilm.new(user_info, film_name).call
-                  else {}
-                  end
-    search_time = if date_time
-                    CheckFilmsAfterTime.new(user_info, date_time).call
-                  else {}
-                  end
-    { user_info: user_info.to_h, search_name: search_name,
-      search_time: search_time }.to_json
-  end
+    req = params.empty? ? JSON.parse(request.body.read.to_s) : params
+    search_info = SearchInfo.new(req)
 
-  api_post_user_info = lambda do
-    content_type :json, charset: 'utf-8'
     begin
-      req = JSON.parse(request.body.read.to_s)
-      user = UserSanitizer.new(
-        location: req['location'], language: req['language']
-      )
-      halt 400 unless user.valid?
+      search = SearchSanitizer.new(location: search_info.location,
+                                   language: search_info.language)
+      halt 400 unless search.valid?
     rescue => e
       logger.error "Fail: #{e}"
       halt 400
     end
 
-    user = User.new(location: user.location, language: user.language)
-
-    if user.save
-      status 201
-      redirect "/#{settings.api_ver}/users/#{user.id}", 303
-    else
-      halt 500, 'Error saving user request to the database'
-    end
+    search_name =
+    search_info.name ? CheckTimesForFilm.new(search_info).call : {}
+    search_time =
+    search_info.time ? CheckFilmsAfterTime.new(search_info).call : {}
+    { search_info: search_info.to_h, search_name: search_name,
+      search_time: search_time }.to_json
   end
 
   # Web API Routes v1
   ['/', '/api/v1/?'].each { |path| get path, &api_get_root }
   get '/api/v1/:cinema/:language/:theater_id/movies/?', &api_get_movie_name
   get '/api/v1/:cinema/:language/:theater_id.json', &api_get_movie_info
-  get '/api/v1/users/:id/?', &api_get_user_info
-  post '/api/v1/users/?', &api_post_user_info
+  get '/api/v1/search/?', &api_get_search_info
 end
