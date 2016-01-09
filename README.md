@@ -14,21 +14,13 @@ Handles:
 - GET `/api/v1/:cinema/:language/:theater_id.json`
   - `:cinema`, `:language`, `:theater_id` are same as above.
   - Returns JSON object representing specified cinema, with information about current films on display and show times in the language requested.
-- POST `/api/v1/users`
-  - Store the location and language preference for user.
-  - Redirect to the page which shows the data input.
-  - Example: curl -v -d '{"location":"new taipei city","language":"english"}' http://localhost:9292/api/v1/users
-- GET `/api/v1/users/:id`
-  - You get your `:id` after the post request to `/api/v1/users`.
-  - You can specify a `name` or `time` as part of your request.
-  - Sample `name` request:
-    - GET `/api/v1/users/3a4265e2-1ab8-463e-acce-c98d525867c0?name=007`
-      - This would return the viewing times for the found film in the language you saved and at the cinemas in the location saved.
-  - Sample `time` requests:
-    - GET `/api/v1/users/3a4265e2-1ab8-463e-acce-c98d525867c0?time=Dec 13 18:00`
-      - This would return the viewing times for films shown after the specified time on specified date in the language you saved and at the cinemas in the location saved.
-    - GET `/api/v1/users/3a4265e2-1ab8-463e-acce-c98d525867c0?time=18:00`
-      - This would return the viewing times for films shown after the specified time on current date in the language you saved and at the cinemas in the location saved.
+- GET `/api/v1/search`
+  - This needs at least 2 parameters which can either be sent as URL parameters or json.
+    - `location`: Has to be a location in the [locations table](#locations)
+    - `language`: Has to be either 'chinese' or 'english'
+  - Additional parameters
+    - `name`: The name of the film you wish to search for.
+    - `time`: The time you wish to go to the cinema.
 
 ## Locations
 

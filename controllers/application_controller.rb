@@ -49,7 +49,12 @@ class ApplicationController < Sinatra::Base
   api_get_search_info = lambda do
     content_type :json, charset: 'utf-8'
 
-    req = params.empty? ? JSON.parse(request.body.read.to_s) : params
+    request_body = request.body.read.to_s
+    req = if params.empty?
+            halt 400 if request_body.empty?
+            JSON.parse(request_body)
+          else params
+          end
     search_info = SearchInfo.new(req)
 
     begin
