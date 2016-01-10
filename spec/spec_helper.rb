@@ -8,8 +8,8 @@ require 'virtus'
 
 ENV['RACK_ENV'] = 'test'
 
-Dir.glob('./{models,helpers,config,values,services,controllers}/init.rb')
-  .each do |file|
+Dir.glob('./{models,helpers,config,values,services,controllers,workers}/'\
+  'init.rb').each do |file|
   require file
 end
 
