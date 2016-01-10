@@ -15,6 +15,7 @@ gem 'virtus'
 gem 'config_env'
 gem 'aws-sdk', '~> 2'
 gem 'dynamoid', '~> 1'
+gem 'shoryuken'
 
 group :test do
   gem 'minitest'
