@@ -3,8 +3,10 @@ class CheckTimesForFilm
   include AppHelpers
   def initialize(search_info)
     @film_name = search_info.name
+    @date_time = search_info.time if search_info.time
     @language = search_info.language
     @location = search_info.location
+    @search_type = search_info.time ? 'name_time' : 'name'
   end
 
   def pick_cinema
@@ -18,8 +20,9 @@ class CheckTimesForFilm
   def call(result = [])
     JSON.parse(pick_cinema.data.gsub('=>', ':')).each do |_vie_amb, codes|
       codes.each do |_code, data|
-        res = SearchMovieTable.new('name', film_name: @film_name, data: data)
-        result.push(res.call)
+        result.push(
+          SearchMovieTable.new(@search_type, film_name: @film_name, data: data,
+                                             date_time: @date_time).call)
       end; end
     result.to_h
   rescue => e

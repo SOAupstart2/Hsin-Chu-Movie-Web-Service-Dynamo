@@ -66,10 +66,19 @@ class ApplicationController < Sinatra::Base
       halt 400
     end
 
-    search_name =
-    search_info.name ? CheckTimesForFilm.new(search_info).call : {}
-    search_time =
-    search_info.time ? CheckFilmsAfterTime.new(search_info).call : {}
+    search_name = {}
+    search_time = {}
+
+    if search_info.name
+      search_name = CheckTimesForFilm.new(search_info).call
+    elsif search_info.time
+      search_time = CheckFilmsAfterTime.new(search_info).call
+    end
+
+    # search_name =
+    # search_info.name ? CheckTimesForFilm.new(search_info).call : {}
+    # search_time =
+    # search_info.time ? CheckFilmsAfterTime.new(search_info).call : {}
     SaveUrlWorker.perform_async(search_info.to_h)
     { search_info: search_info.to_h, search_name: search_name,
       search_time: search_time }.to_json
