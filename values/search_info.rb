@@ -5,8 +5,8 @@ class SearchInfo
   def initialize(req)
     @location = req['location']
     @language = req['language']
-    @name = req['name']
-    @time = req['time']
+    @name = req['name'] unless req['name'].nil? || req['name'].empty?
+    @time = req['time'] unless req['time'].nil? || req['time'].empty?
   end
 
   def to_h

@@ -7,9 +7,10 @@ MIDNIGHT = %w(00 01 02 03)
 # Service object to search movie tables
 class SearchMovieTable
   def initialize(search_type, data)
-    # search_type can be either 'name' or 'time'
+    # search_type can be either 'name', 'time' or 'name_time'
     @search_type = search_type
-    @query_param = search_type == 'name' ? data[:film_name] : data[:date_time]
+    @date_time = data[:date_time]
+    @query_param = search_type == 'time' ? data[:date_time] : data[:film_name]
     @movie_names = JSON.parse(Base64.urlsafe_decode64(
                                 data[:data]['movie_names']))
     @movie_table = JSON.parse(Base64.urlsafe_decode64(
@@ -17,7 +18,18 @@ class SearchMovieTable
   end
 
   def call
-    @search_type == 'name' ? film_times : films_after_time
+    if @search_type == 'name'
+      film_times
+    elsif @search_type == 'time'
+      films_after_time
+    elsif @search_type == 'name_time'
+      # Get results from film name search
+      # Alter global variables to use film_name_search results
+      # Set query_param to date_time for films_after_time search
+      @movie_table = [film_times].to_h
+      @query_param = @date_time
+      films_after_time
+    end
   end
 
   def find_film
