@@ -22,8 +22,8 @@ Handles:
     - `name`: The name of the film you wish to search for.
     - `time`: The time you wish to go to the cinema.
   - Result for additional parameters
-    - `name`,`time` : Show the film which fits the time you wish to go in all cinemas.
-    - `name` : Show the result of the film in all cinemas, and the result is divided by date.
+    - `name`,`time` : Show the result of the film in all cinemas which fits the time you wish to go.
+    - `name` : Show the result of the film in all cinemas.
     - `time` : Show all the films which fits the time you wish to go in all cinemas.
 
 ## Locations
